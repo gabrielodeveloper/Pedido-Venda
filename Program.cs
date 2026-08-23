@@ -178,6 +178,125 @@
         }
     }
 
+    public static void AlterarCliente()
+    {
+        string? codigoDigitado;
+
+        while (true)
+        {
+            Console.Write("\nDigite o código do cliente que deseja Alterar: ");
+            codigoDigitado = Console.ReadLine();
+
+            if (!int.TryParse(codigoDigitado, out int codigo))
+            {
+                Console.WriteLine("O código informado é inválido. Tente novamente!");
+                continue;
+            }
+
+            if (codigo < 0)
+            {
+                Console.WriteLine("O código informado não pode ser negativo.");
+                continue;
+            }
+
+            Cliente? cliente = clientes.Find(cli => cli.Codigo == codigo);
+
+            if (cliente != null)
+            {
+                while (true)
+                {
+                    Console.Write("Digite o nome do cliente: ");
+                    string? nome = Console.ReadLine();
+
+                    if (nome == null)
+                    {
+                        Console.WriteLine("O nome do cliente não pode ser vazio.");
+                        continue;
+                    }
+                    cliente.Nome = nome;
+                    break;
+                }
+
+                while (true)
+                {
+                    Console.Write("Digite o CPF do cliente: ");
+                    string? CPF = Console.ReadLine();
+
+                    if (!string.IsNullOrEmpty(CPF))
+                    {
+
+                        if (!IsCpf(CPF))
+                        {
+                            Console.WriteLine("CPF informado inválido. Tente novamente.");
+                            continue;
+                        }
+                        cliente.CPF = CPF;
+                    }
+
+                    break;
+                }
+
+                Console.WriteLine("\nCliente Alterado com sucesso.");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Cliente não encontrado. \n");
+            }
+        }
+    }
+
+    public static void ExcluirCliente()
+    {
+        string? codigoDigitado;
+
+        while (true)
+        {
+            Console.Write("\nDigite o código do cliente que deseja excluir: ");
+            codigoDigitado = Console.ReadLine();
+
+            if (!int.TryParse(codigoDigitado, out int codigo))
+            {
+                Console.WriteLine("O código informado é inválido. Tente novamente!");
+                continue;
+            }
+
+            if (codigo < 0)
+            {
+                Console.WriteLine("O código informado não pode ser negativo.");
+                continue;
+            }
+
+            Console.Write("\nVocê realmente deseja excluir este cliente? ex:[S/N] \n");
+            string? opcao = Console.ReadLine();
+
+            Cliente? cliente = clientes.Find(cli => cli.Codigo == codigo);
+
+            if (cliente != null)
+            {
+                if (opcao != null && opcao.Equals("s", StringComparison.OrdinalIgnoreCase))
+                {
+
+                    clientes.Remove(cliente);
+                    Console.WriteLine("Cliente excluído com sucesso!");
+                    break;
+                }
+                else if (opcao != null && opcao.Equals("n", StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Opção inválida. Tente novamente!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Cliente não encontrado. \n");
+            }
+        }
+
+    }
     public static void Main(string[] args)
     {
 
@@ -202,6 +321,12 @@
                             break;
                         case 3:
                             ConsultarClientePorCodigo();
+                            break;
+                        case 4:
+                            AlterarCliente();
+                            break;
+                        case 5:
+                            ExcluirCliente();
                             break;
                     }
                     break;
