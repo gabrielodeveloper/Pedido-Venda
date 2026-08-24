@@ -63,16 +63,15 @@
     public static void CadastrarCliente()
     {
         Cliente cliente = new Cliente();
-        string? linha;
 
         Console.WriteLine("\n=== Cadastrar Cliente ===\n");
 
         while (true)
         {
             Console.Write("Digite o código do cliente: ");
-            linha = Console.ReadLine();
+            string? codigoDigitado = Console.ReadLine();
 
-            if (!int.TryParse(linha, out int codigo))
+            if (!int.TryParse(codigoDigitado, out int codigo))
             {
                 Console.WriteLine("O código informado é inválido. Tente novamente!");
                 continue;
@@ -81,6 +80,14 @@
             if (codigo < 0)
             {
                 Console.WriteLine("O código informado não pode ser negativo.");
+                continue;
+            }
+
+            bool CodigoExiste = clientes.Any(cli => cli.Codigo == codigo);
+
+            if (CodigoExiste)
+            {
+                Console.WriteLine("\nEste código já está em uso.\n");
                 continue;
             }
 
@@ -93,7 +100,7 @@
             Console.Write("Digite o nome do cliente: ");
             string? nome = Console.ReadLine();
 
-            if (nome == null)
+            if (string.IsNullOrWhiteSpace(nome))
             {
                 Console.WriteLine("O nome do cliente não pode ser vazio.");
                 continue;
@@ -105,17 +112,31 @@
         while (true)
         {
             Console.Write("Digite o CPF do cliente: ");
-            linha = Console.ReadLine();
+            string? CPFDigitado = Console.ReadLine();
 
-            if (!string.IsNullOrEmpty(linha))
+            if (string.IsNullOrWhiteSpace(CPFDigitado))
+            {
+                Console.WriteLine("O CPF deve ser informado. Tente novamente.");
+                continue;
+            }
+
+            bool CPFExiste = clientes.Any(cli => cli.CPF == CPFDigitado);
+
+            if (CPFExiste)
+            {
+                Console.WriteLine("\nEste CPF já está cadastrado.\n");
+                continue;
+            }
+
+            if (!string.IsNullOrEmpty(CPFDigitado))
             {
 
-                if (!IsCpf(linha))
+                if (!IsCpf(CPFDigitado))
                 {
                     Console.WriteLine("CPF informado inválido. Tente novamente.");
                     continue;
                 }
-                cliente.CPF = linha;
+                cliente.CPF = CPFDigitado;
             }
 
             break;
@@ -157,7 +178,9 @@
                 continue;
             }
 
-            foreach (var cliente in clientes)
+            Cliente? cliente = clientes.Find(cli => cli.Codigo == codigo);
+
+            if (cliente != null)
             {
                 if (cliente.Codigo == codigo)
                 {
@@ -173,8 +196,6 @@
                 }
 
             }
-            break;
-
         }
     }
 
@@ -332,6 +353,7 @@
                     break;
             }
         }
-
+        ExibirMenuPrincipal();
+        opcao = Convert.ToInt32(Console.ReadLine());
     }
 }
