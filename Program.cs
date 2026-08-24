@@ -149,12 +149,12 @@
 
     public static void ConsultarCliente()
     {
-        foreach (var cliente in clientes)
+        clientes.ForEach(cliente =>
         {
             Console.WriteLine($"\nCódigo: {cliente.Codigo}");
             Console.WriteLine($"Nome: {cliente.Nome}");
             Console.WriteLine($"CPF: {cliente.CPF}");
-        }
+        });
     }
 
     public static void ConsultarClientePorCodigo()
