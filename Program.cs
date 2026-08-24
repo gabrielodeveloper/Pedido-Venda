@@ -234,39 +234,6 @@
                     break;
                 }
 
-                while (true)
-                {
-                    Console.Write("Digite o CPF do cliente: ");
-                    string? CPFDigitado = Console.ReadLine();
-
-                    if (string.IsNullOrWhiteSpace(CPFDigitado))
-                    {
-                        Console.WriteLine("O CPF deve ser informado. Tente novamente.");
-                        continue;
-                    }
-
-                    bool CPFExiste = clientes.Any(cli => cli.CPF == CPFDigitado);
-
-                    if (CPFExiste)
-                    {
-                        Console.WriteLine("\nEste CPF já está cadastrado.\n");
-                        continue;
-                    }
-
-                    if (!string.IsNullOrEmpty(CPFDigitado))
-                    {
-
-                        if (!IsCpf(CPFDigitado))
-                        {
-                            Console.WriteLine("CPF informado inválido. Tente novamente.");
-                            continue;
-                        }
-                        cliente.CPF = CPFDigitado;
-                    }
-
-                    break;
-                }
-
                 Console.WriteLine("\nCliente Alterado com sucesso.");
                 break;
             }
