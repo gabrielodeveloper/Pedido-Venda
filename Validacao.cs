@@ -41,10 +41,11 @@ public class Validacao
 
         return cpf.EndsWith(digito);
     }
-    public int ObterCodigo()
+    public int ObterCodigo(string objeto)
     {
         while (true)
         {
+            Console.Write($"Digite o código do {objeto}: ");
             string? codigoDigitado = Console.ReadLine();
 
             if (!int.TryParse(codigoDigitado, out int codigo))
