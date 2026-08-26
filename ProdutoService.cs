@@ -29,29 +29,35 @@ public class ProdutoService
     {
         Produto produto = new Produto();
         Console.WriteLine("=== Cadastrar Produto ===");
-
-        while (true)
+        try
         {
-            Console.Write("Digite o código do produto: ");
-            int codigo = validacao.ObterCodigo();
-            bool codigoExiste = produtos.Any(produto => produto.Codigo == codigo);
-
-            if (codigoExiste)
+            while (true)
             {
-                Console.WriteLine("Este código já está em uso. Tente novamente.");
-                continue;
+                int codigo = validacao.ObterCodigo("produto");
+                bool codigoExiste = produtos.Any(produto => produto.Codigo == codigo);
+
+                if (codigoExiste)
+                {
+                    Console.WriteLine("Este código já está em uso. Tente novamente.");
+                    continue;
+                }
+                produto.Codigo = codigo;
+                break;
             }
-            produto.Codigo = codigo;
-            break;
+
+            produto.Descricao = validacao.ObterDescricaoProduto();
+            produto.Preco = validacao.ObterPrecoValido();
+            produto.Estoque = validacao.ObterEstoqueValido();
+            produto.Ativo = validacao.ObterProdutoAtivo();
+
+            produtos.Add(produto);
+            Console.WriteLine("\nProduto cadastrado com sucesso!\n");
         }
-
-        produto.Descricao = validacao.ObterDescricaoProduto();
-        produto.Preco = validacao.ObterPrecoValido();
-        produto.Estoque = validacao.ObterEstoqueValido();
-        produto.Ativo = validacao.ObterProdutoAtivo();
-
-        produtos.Add(produto);
-        Console.WriteLine("\nProduto cadastrado com sucesso!\n");
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Não foi possível cadastrar o produto. Detalhe: {ex.Message}");
+            return;
+        }
     }
     public void ConsultarProdutos()
     {
@@ -65,9 +71,10 @@ public class ProdutoService
     }
     public void ConsultarProdutoPorCodigo()
     {
+        Console.WriteLine("\n=== Consultar Produtos Por Código ===\n");
         Console.Write("\nDigite o código do produto desejado: ");
 
-        int codigo = validacao.ObterCodigo();
+        int codigo = validacao.ObterCodigo("produto");
         var produtosEncontrados = ObterProduto(codigo);
 
         Console.Write("Digite o código do produto: ");
@@ -81,53 +88,71 @@ public class ProdutoService
     }
     public void AlterarProduto()
     {
-        int codigo = validacao.ObterCodigo();
-
-        Produto? produto = produtos.Find(prod => prod.Codigo == codigo);
-
-        if (produto != null)
+        Console.WriteLine("\n=== Alterar Produto ==\n");
+        int codigo = validacao.ObterCodigo("produto");
+        try
         {
-            produto.Descricao = validacao.ObterDescricaoProduto();
-            produto.Preco = validacao.ObterPrecoValido();
-            produto.Estoque = validacao.ObterEstoqueValido();
-            produto.Ativo = validacao.ObterProdutoAtivo();
-            Console.WriteLine("\nProduto alterado com sucesso!\n");
+            Produto? produto = produtos.Find(prod => prod.Codigo == codigo);
+
+            if (produto != null)
+            {
+                produto.Descricao = validacao.ObterDescricaoProduto();
+                produto.Preco = validacao.ObterPrecoValido();
+                produto.Estoque = validacao.ObterEstoqueValido();
+                produto.Ativo = validacao.ObterProdutoAtivo();
+                Console.WriteLine("\nProduto alterado com sucesso!\n");
+            }
+            else
+            {
+                Console.WriteLine("Produto não encontrado. Tente Novamente!");
+                return;
+            }
+
         }
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine("Produto não encontrado. Tente Novamente!");
+            Console.WriteLine($"Não foi possível cadastrar o produto. Detalhe: {ex.Message}");
             return;
         }
     }
     public void ExcluirProduto()
     {
-        int codigo = validacao.ObterCodigo();
-        var produtoEncontrado = ObterProduto(codigo);
-
-        Console.Write("\nVocê realmente deseja excluir este produto? ex:[S/N] ");
-        string? opcao = Console.ReadLine();
-
-        Produto? produto = produtoEncontrado[0];
-        
-        if (produto != null)
+        Console.WriteLine("\n=== Excluir Produto ==\n");
+        try
         {
-            if (opcao != null && opcao.Equals("s", StringComparison.OrdinalIgnoreCase))
+            int codigo = validacao.ObterCodigo("produto");
+            var produtoEncontrado = ObterProduto(codigo);
+
+            Console.Write("\nVocê realmente deseja excluir este produto? ex:[S/N] ");
+            string? opcao = Console.ReadLine();
+
+            Produto? produto = produtoEncontrado[0];
+
+            if (produto != null)
             {
-                produtos.Remove(produto);
-                Console.WriteLine("Produto excluido com sucesso.");
-            }
-            else if (opcao != null && opcao.Equals("n", StringComparison.OrdinalIgnoreCase))
-            {
-                return;
+                if (opcao != null && opcao.Equals("s", StringComparison.OrdinalIgnoreCase))
+                {
+                    produtos.Remove(produto);
+                    Console.WriteLine("Produto excluido com sucesso.");
+                }
+                else if (opcao != null && opcao.Equals("n", StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("A opção digitada é inválido!");
+                }
             }
             else
             {
-                Console.WriteLine("A opção digitada é inválido!");
+                Console.WriteLine("Produto não encontrado!");
             }
         }
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine("Produto não encontrado!");
+            Console.WriteLine($"Não foi possível cadastrar o produto. Detalhe: {ex.Message}");
+            return;
         }
     }
 }
