@@ -52,7 +52,7 @@ public class ClienteService
         }
 
     }
-    public void ExbirCliente(Cliente cliente)
+    public void ExibirCliente(Cliente cliente)
     {
         Console.WriteLine($"\nCódigo: {cliente.Codigo}");
         Console.WriteLine($"Nome: {cliente.Nome}");
@@ -65,7 +65,7 @@ public class ClienteService
 
         foreach (var cliente in clientesEncontrados)
         {
-            ExbirCliente(cliente);
+            ExibirCliente(cliente);
         }
     }
     public void ConsultarClientePorCodigo()
@@ -79,7 +79,7 @@ public class ClienteService
             return;
         }
         Cliente cliente = clienteEncontrado[0];
-        ExbirCliente(cliente);
+        ExibirCliente(cliente);
     }
     public void AlterarCliente()
     {
