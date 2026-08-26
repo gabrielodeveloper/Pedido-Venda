@@ -1,4 +1,4 @@
-public class ClienteValidacao
+public class Validacao
 {
     private bool IsCpf(string cpf)
     {
@@ -45,7 +45,6 @@ public class ClienteValidacao
     {
         while (true)
         {
-            Console.Write("Digite o código do cliente: ");
             string? codigoDigitado = Console.ReadLine();
 
             if (!int.TryParse(codigoDigitado, out int codigo))
@@ -102,6 +101,84 @@ public class ClienteValidacao
                 }
             }
             return CPFDigitado;
+        }
+    }
+    public string ObterDescricaoProduto()
+    {
+        while (true)
+        {
+            Console.Write("Digite a descrição do produto: ");
+            string? descricao = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(descricao))
+            {
+                Console.WriteLine("A descrição do produto não pode ser vazio.");
+                continue;
+            }
+
+            return descricao;
+        }
+    }
+    public decimal ObterPrecoValido()
+    {
+        while (true)
+        {
+            Console.Write("Digite o valor do produto: ");
+            string? precoInformado = Console.ReadLine();
+
+            if (!decimal.TryParse(precoInformado, out decimal preco))
+            {
+                Console.WriteLine("O valor informado é inválido. Tente Novamente!");
+                continue;
+            }
+
+            if (preco < 0)
+            {
+                Console.WriteLine("O valor informado não pode ser negativo!");
+                continue;
+            }
+
+            return preco;
+        }
+    }
+
+    public int ObterEstoqueValido()
+    {
+        while (true)
+        {
+            Console.Write("Digite a quantidade de estoque do produto: ");
+            string? estoqueInformado = Console.ReadLine();
+
+            if (!int.TryParse(estoqueInformado, out int estoque))
+            {
+                Console.WriteLine("A quantidade informada do produto é inválida. Tente Novamente!");
+                continue;
+            }
+
+            if (estoque < 0)
+            {
+                Console.WriteLine("A quantidade não pode ser negativa.");
+                continue;
+            }
+
+            return estoque;
+        }
+    }
+
+    public bool ObterProdutoAtivo()
+    {
+        while (true)
+        {
+            Console.Write("Ativo (true/false): ");
+            string? situacao = Console.ReadLine();
+
+            if(!bool.TryParse(situacao, out bool ativo))
+            {
+                Console.WriteLine("O valor informado é inválido. Tente Novamente.");
+                continue;
+            }
+
+            return ativo;
         }
     }
 }

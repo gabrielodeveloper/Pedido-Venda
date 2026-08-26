@@ -1,13 +1,13 @@
 public class ClienteService
 {
 
-    private ClienteValidacao clienteValidacao;
+    private Validacao validacao;
     private ClienteColecao clientes;
 
-    public ClienteService(ClienteColecao clientes, ClienteValidacao clienteValidacao)
+    public ClienteService(ClienteColecao clientes, Validacao validacao)
     {
         this.clientes = clientes;
-        this.clienteValidacao = clienteValidacao;
+        this.validacao = validacao;
     }
     public List<Cliente> ObterCliente(int? codigo = null)
     {
@@ -26,7 +26,8 @@ public class ClienteService
 
         while (true)
         {
-            int codigo = clienteValidacao.ObterCodigo();
+            Console.Write("Digite o código do cliente: ");
+            int codigo = validacao.ObterCodigo();
             bool codigoExiste = clientes.Any(cli => cli.Codigo == codigo);
 
             if (codigoExiste)
@@ -39,8 +40,8 @@ public class ClienteService
             break;
         }
 
-        cliente.Nome = clienteValidacao.ObterNomeCliente();
-        cliente.CPF = clienteValidacao.ObterCPFValido();
+        cliente.Nome = validacao.ObterNomeCliente();
+        cliente.CPF = validacao.ObterCPFValido();
 
         Console.WriteLine("\nCliente Cadastrado com sucesso.");
         clientes.Add(cliente);
@@ -63,9 +64,7 @@ public class ClienteService
     }
     public void ConsultarClientePorCodigo()
     {
-        Console.Write("\nDigite o código do cliente: ");
-
-        int codigo = clienteValidacao.ObterCodigo();
+        int codigo = validacao.ObterCodigo();
         var clienteEncontrado = ObterCliente(codigo);
 
         if (!clienteEncontrado.Any())
