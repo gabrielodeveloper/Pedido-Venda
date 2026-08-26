@@ -77,7 +77,6 @@ public class ProdutoService
         int codigo = validacao.ObterCodigo("produto");
         var produtosEncontrados = ObterProduto(codigo);
 
-        Console.Write("Digite o código do produto: ");
         if (!produtosEncontrados.Any())
         {
             Console.WriteLine("Produto não encontrado!");
@@ -90,9 +89,17 @@ public class ProdutoService
     {
         Console.WriteLine("\n=== Alterar Produto ==\n");
         int codigo = validacao.ObterCodigo("produto");
+        var produtoEncontrado = ObterProduto(codigo);
+
         try
         {
-            Produto? produto = produtos.Find(prod => prod.Codigo == codigo);
+            if (!produtoEncontrado.Any())
+            {
+                Console.WriteLine("Produto não encontrado!");
+                return;
+            }
+
+            Produto? produto = produtoEncontrado[0];
 
             if (produto != null)
             {
@@ -107,7 +114,6 @@ public class ProdutoService
                 Console.WriteLine("Produto não encontrado. Tente Novamente!");
                 return;
             }
-
         }
         catch (Exception ex)
         {
@@ -125,6 +131,12 @@ public class ProdutoService
 
             Console.Write("\nVocê realmente deseja excluir este produto? ex:[S/N] ");
             string? opcao = Console.ReadLine();
+
+            if (!produtoEncontrado.Any())
+            {
+                Console.WriteLine("Produto não encontrado!");
+                return;
+            }
 
             Produto? produto = produtoEncontrado[0];
 
