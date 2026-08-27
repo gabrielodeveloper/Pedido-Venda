@@ -16,7 +16,7 @@
         Console.WriteLine("2 - Consultar Cliente");
         Console.WriteLine("3 - Consultar Cliente Por Código");
         Console.WriteLine("4 - Alterar Cliente");
-        Console.WriteLine("5 - Excluir");
+        Console.WriteLine("5 - Excluir Cliente");
         Console.WriteLine("6 - Voltar para o menu principal");
     }
     public static void ExibirMenuProduto()
@@ -26,8 +26,18 @@
         Console.WriteLine("2 - Consultar Produto");
         Console.WriteLine("3 - Consultar Produto Por Código");
         Console.WriteLine("4 - Alterar Produto");
-        Console.WriteLine("5 - Excluir");
-        Console.WriteLine("6 - Voltar para o menu principal");
+        Console.WriteLine("5 - Excluir Produto");
+        Console.WriteLine("6 - Voltar Para o Menu Principal");
+    }
+    public static void ExibirPedidoVenda()
+    {
+        Console.WriteLine("\n=== Selecionar Pedido Venda ===\n");
+        Console.WriteLine("1 - Cadastrar Pedido");
+        Console.WriteLine("2 - Consultar Pedido");
+        Console.WriteLine("3 - Consultar Pedido Por Código");
+        Console.WriteLine("4 - Alterar Pedido");
+        Console.WriteLine("5 - Excluir Pedido");
+        Console.WriteLine("6 - Voltar Para o Menu Principal");
     }
     public static void Main(string[] args)
     {
@@ -98,7 +108,16 @@
                                 ExibirMenuPrincipal();
                                 opcao = Convert.ToInt32(Console.ReadLine());
                                 break;
+                            default:
+                                Console.WriteLine("Opção inválida. Tente novamente!");
+                                break;
                         }
+                        break;
+                    case 3:
+                        ExibirPedidoVenda();
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida. Tente novamente!");
                         break;
                 }
             }
