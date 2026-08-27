@@ -72,7 +72,6 @@ public class ProdutoService
     public void ConsultarProdutoPorCodigo()
     {
         Console.WriteLine("\n=== Consultar Produtos Por Código ===\n");
-        Console.Write("\nDigite o código do produto desejado: ");
 
         int codigo = validacao.ObterCodigo("produto");
         var produtosEncontrados = ObterProduto(codigo);
@@ -95,25 +94,18 @@ public class ProdutoService
         {
             if (!produtoEncontrado.Any())
             {
-                Console.WriteLine("Produto não encontrado!");
+                Console.WriteLine("Produto não encontrado. Tente Novamente!");
                 return;
             }
 
             Produto? produto = produtoEncontrado[0];
 
-            if (produto != null)
-            {
-                produto.Descricao = validacao.ObterDescricaoProduto();
-                produto.Preco = validacao.ObterPrecoValido();
-                produto.Estoque = validacao.ObterEstoqueValido();
-                produto.Ativo = validacao.ObterProdutoAtivo();
-                Console.WriteLine("\nProduto alterado com sucesso!\n");
-            }
-            else
-            {
-                Console.WriteLine("Produto não encontrado. Tente Novamente!");
-                return;
-            }
+            produto.Descricao = validacao.ObterDescricaoProduto();
+            produto.Preco = validacao.ObterPrecoValido();
+            produto.Estoque = validacao.ObterEstoqueValido();
+            produto.Ativo = validacao.ObterProdutoAtivo();
+            Console.WriteLine("\nProduto alterado com sucesso!\n");
+
         }
         catch (Exception ex)
         {
@@ -134,36 +126,30 @@ public class ProdutoService
 
             if (!produtoEncontrado.Any())
             {
-                Console.WriteLine("Produto não encontrado!");
+                Console.WriteLine("Produto não encontrado. Tente novamente!");
                 return;
             }
 
             Produto? produto = produtoEncontrado[0];
 
-            if (produto != null)
+            if (opcao != null && opcao.Equals("s", StringComparison.OrdinalIgnoreCase))
             {
-                if (opcao != null && opcao.Equals("s", StringComparison.OrdinalIgnoreCase))
-                {
-                    produtos.Remove(produto);
-                    Console.WriteLine("Produto excluido com sucesso.");
-                }
-                else if (opcao != null && opcao.Equals("n", StringComparison.OrdinalIgnoreCase))
-                {
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("A opção digitada é inválido!");
-                }
+                produtos.Remove(produto);
+                Console.WriteLine("Produto excluido com sucesso.");
+            }
+            else if (opcao != null && opcao.Equals("n", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
             }
             else
             {
-                Console.WriteLine("Produto não encontrado!");
+                Console.WriteLine("A opção digitada é inválido!");
             }
+
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Não foi possível cadastrar o produto. Detalhe: {ex.Message}");
+            Console.WriteLine($"Não foi possível excluir o produto. Detalhe: {ex.Message}");
             return;
         }
     }
