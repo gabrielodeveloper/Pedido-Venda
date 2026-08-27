@@ -2,6 +2,9 @@
 {
     static ClienteColecao clientes = new ClienteColecao();
     static ProdutoColecao produtos = new ProdutoColecao();
+    static List<PedidoItem> itens = new List<PedidoItem>();
+    static Cliente cliente = new Cliente();
+    static Produto produto = new Produto();
     public static void ExibirMenuPrincipal()
     {
         Console.WriteLine("\n=== Menu Principal ===\n");
@@ -44,6 +47,7 @@
         Validacao validacao = new Validacao();
         ClienteService clienteService = new ClienteService(clientes, validacao);
         ProdutoService produtoService = new ProdutoService(validacao, produtos);
+        PedidoService pedidoService = new PedidoService(validacao, produtos, clientes, cliente, produto, itens);
 
         ExibirMenuPrincipal();
         try
@@ -115,9 +119,32 @@
                         break;
                     case 3:
                         ExibirPedidoVenda();
-                        break;
-                    default:
-                        Console.WriteLine("Opção inválida. Tente novamente!");
+                        int acaoPedido = Convert.ToInt32(Console.ReadLine());
+                        switch (acaoPedido)
+                        {
+                            case 1:
+                                pedidoService.CadastrarPedido();
+                                break;
+                            case 2:
+                                //produtoService.ConsultarProdutos();
+                                break;
+                            case 3:
+                                // produtoService.ConsultarProdutoPorCodigo();
+                                break;
+                            case 4:
+                                // produtoService.AlterarProduto();
+                                break;
+                            case 5:
+                                // produtoService.ExcluirProduto();
+                                break;
+                            case 6:
+                                ExibirMenuPrincipal();
+                                opcao = Convert.ToInt32(Console.ReadLine());
+                                break;
+                            default:
+                                Console.WriteLine("Opção inválida. Tente novamente!");
+                                break;
+                        }
                         break;
                 }
             }
