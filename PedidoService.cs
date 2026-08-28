@@ -76,9 +76,53 @@ public class PedidoService
                 continue;
             }
 
+
+            Console.Write("Deseja inserir um novo produto? [s/n]");
+            string? opcao = Console.ReadLine();
+            bool finalizarInsersaoItem = true;
+            int PedidoItemColeca = 0;
+
+            while (finalizarInsersaoItem)
+            {
+                if (opcao != null && opcao.Equals("s", StringComparison.OrdinalIgnoreCase))
+                {
+                    codigoProduto = validacao.ObterCodigo("Produto");
+                    produtoEncontrado = ObterProduto(codigoProduto);
+
+                    Console.Write("Digite a quantidade do produto solicitado: ");
+                    quantidade = Console.ReadLine();
+
+                    if (!int.TryParse(quantidade, out quantidadeItem))
+                    {
+                        Console.WriteLine("A quantidade informada é inválida.");
+                        continue;
+                    }
+
+                    if (quantidadeItem < 0)
+                    {
+                        Console.WriteLine("A quantidade informada não pode ser negativa.");
+                        continue;
+                    }
+                    PedidoItemColeca++;
+
+                    Console.Write("Deseja inserir um novo produto? [s/n]");
+                     opcao = Console.ReadLine();
+                }
+                else if (opcao != null && opcao.Equals("n", StringComparison.OrdinalIgnoreCase))
+                {
+                    finalizarInsersaoItem = false;
+                }
+                else
+                {
+                    Console.WriteLine("Opção inválida. Tente Novamente.");
+                    continue;
+                }
+
+            }
+
             cadastrarPedido.CodigoPedido = codigoPedido;
             cadastrarPedido.Cliente = clienteEncontrado[0];
-            pedidoItem.Produto = produtoEncontrado[0];
+            pedidoItem.Produto = produtoEncontrado[PedidoItemColeca];
             pedidoItem.Quantidade = quantidadeItem;
             pedidos.Add(cadastrarPedido);
             Console.WriteLine($"\nCódigo Pedido: {cadastrarPedido.CodigoPedido}");
