@@ -47,7 +47,7 @@
         Validacao validacao = new Validacao();
         ClienteService clienteService = new ClienteService(clientes, validacao);
         ProdutoService produtoService = new ProdutoService(validacao, produtos);
-        PedidoService pedidoService = new PedidoService(validacao, produtos, clientes, cliente, produto, itens);
+        PedidoService pedidoService = new PedidoService(validacao, produtos, clientes);
 
         ExibirMenuPrincipal();
         try
